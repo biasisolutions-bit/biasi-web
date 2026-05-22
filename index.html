@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biasi Solutions — L'IA pour votre métier</title>
+<meta name="description" content="Automatisation et IA traduites pour votre métier. Pour les TPE et indépendants qui veulent gagner du temps sans tout réapprendre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Cal.com embed init -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "discovery", {origin:"https://cal.com"});
+Cal.ns.discovery("ui", {"theme":"light","styles":{"branding":{"brandColor":"#1B4F72"}},"hideEventTypeDetails":false,"layout":"month_view"});
+</script>
+<style>
+  :root {
+    --navy: #1B4F72;
+    --navy-dark: #143A55;
+    --lime: #A8CC00;
+    --lime-dark: #8FB300;
+    --cream: #f0ebe3;
+    --soft: #F7EDD8;
+    --white: #ffffff;
+    --text: #2A2A2A;
+    --muted: #6B6B6B;
+    --line: #E5DFD5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(240, 235, 227, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1000;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+
+  .logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .logo .ia { color: var(--lime); }
+  .logo-sub {
+    display: block;
+    color: var(--muted);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: -2px;
+    font-weight: 500;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 0;
+    width: 0; height: 2px;
+    background: var(--lime);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  .lang-switch {
+    display: flex;
+    gap: 0.25rem;
+    background: var(--white);
+    border-radius: 999px;
+    padding: 4px;
+    border: 1px solid var(--line);
+  }
+  .lang-switch button {
+    background: none;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .lang-switch button.active {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .cta-btn {
+    background: var(--navy);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cta-btn:hover {
+    background: var(--lime);
+    color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(168, 204, 0, 0.3);
+  }
+  .cta-btn.outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  .cta-btn.outline:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 3rem 4rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(168, 204, 0, 0.15), transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -300px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(27, 79, 114, 0.08), transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .hero-badge .dot {
+    width: 8px; height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+  }
+  .hero h1 .accent {
+    color: var(--lime);
+    position: relative;
+    display: inline-block;
+  }
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 0.1em; left: 0;
+    width: 100%; height: 12px;
+    background: rgba(168, 204, 0, 0.25);
+    z-index: -1;
+  }
+  .hero p.lead {
+    font-size: 1.25rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    border-left: 2px solid var(--lime);
+    padding-left: 1rem;
+  }
+  .stat .num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .stat .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    display: inline-block;
+    color: var(--lime-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+  .section-intro {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 700px;
+    margin-bottom: 4rem;
+  }
+
+  /* ===== ABOUT ===== */
+  #about { background: var(--white); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+  }
+  .about-visual {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    background: var(--lime);
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+  .signature {
+    position: relative;
+    z-index: 1;
+  }
+  .profile-photo-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 4px;
+    background: linear-gradient(135deg, var(--lime), var(--navy));
+    border-radius: 50%;
+  }
+  .profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    border: 3px solid var(--cream);
+  }
+  .signature .name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .signature .role {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .signature .quote {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text);
+    border-left: 3px solid var(--lime);
+    padding-left: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .credentials {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(27, 79, 114, 0.1);
+  }
+  .cred-mini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .cred-mini .chip {
+    background: var(--white);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    border: 1px solid rgba(27, 79, 114, 0.08);
+    letter-spacing: 0.02em;
+  }
+  .cred-mini .chip.key {
+    color: var(--navy);
+    border-color: rgba(27, 79, 114, 0.2);
+  }
+  .cred-mini .sep {
+    color: rgba(27, 79, 114, 0.2);
+    font-size: 0.85rem;
+    align-self: center;
+    margin: 0 0.15rem;
+  }
+  .credentials-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+    opacity: 0.7;
+  }
+  .credential-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+  }
+  .credential-chip {
+    background: var(--white);
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy);
+    border: 1px solid rgba(27, 79, 114, 0.1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .credential-chip.lime {
+    background: var(--lime);
+    color: var(--navy);
+    border-color: var(--lime);
+  }
+  .credential-chip .dot-sep {
+    color: var(--lime-dark);
+    font-weight: 800;
+  }
+
+  .cities-strip {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .cities-strip .pin {
+    color: var(--lime-dark);
+    font-size: 1rem;
+  }
+  .cities-strip .city {
+    padding: 0.15rem 0.5rem;
+    background: rgba(168, 204, 0, 0.15);
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .about-text p strong {
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  /* Compact credentials inline (cred-mini) */
+  .cred-mini {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(27, 79, 114, 0.1);
+  }
+  .cred-mini .chip {
+    background: var(--white);
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy);
+    border: 1px solid rgba(27, 79, 114, 0.1);
+    transition: all 0.25s;
+    line-height: 1;
+  }
+  .cred-mini .chip:hover {
+    border-color: var(--lime);
+    transform: translateY(-1px);
+  }
+  .cred-mini .chip.key {
+    background: var(--lime);
+    color: var(--navy);
+    border-color: var(--lime);
+    font-weight: 700;
+  }
+  .cred-mini .sep {
+    color: var(--lime-dark);
+    font-weight: 800;
+    opacity: 0.5;
+    padding: 0 0.2rem;
+  }
+
+  /* ===== SERVICES ===== */
+  #services { background: var(--cream); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .service-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.4s ease;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(27, 79, 114, 0.12);
+    border-color: var(--lime);
+  }
+  .service-icon {
+    width: 56px; height: 56px;
+    background: var(--soft);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
+  }
+  .service-card:hover .service-icon {
+    background: var(--lime);
+    transform: rotate(-5deg);
+  }
+  .service-icon svg {
+    width: 28px; height: 28px;
+    stroke: var(--navy);
+  }
+  .service-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02em;
+  }
+  .service-card p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .service-features {
+    list-style: none;
+  }
+  .service-features li {
+    font-size: 0.85rem;
+    color: var(--text);
+    padding: 0.3rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .service-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--lime-dark);
+    font-weight: 700;
+  }
+
+  /* ===== EMPATHY ===== */
+  #empathy {
+    background: var(--soft);
+    padding: 6rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #empathy::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(168, 204, 0, 0.12), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  #empathy::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(27, 79, 114, 0.06), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .empathy-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .empathy-eyebrow {
+    display: inline-block;
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+  }
+  .empathy-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.2rem;
+  }
+  .empathy-title .normal {
+    color: var(--lime-dark);
+    position: relative;
+    display: inline-block;
+  }
+  .empathy-body {
+    font-size: 1.1rem;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 720px;
+    margin: 0 auto 3rem;
+  }
+  .empathy-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .pillar {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 1.8rem 1.5rem;
+    text-align: left;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.5);
+    transition: all 0.3s;
+  }
+  .pillar:hover {
+    background: var(--white);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(27, 79, 114, 0.08);
+  }
+  .pillar-icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: var(--lime);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .pillar-icon svg {
+    width: 22px; height: 22px;
+    stroke: var(--navy);
+  }
+  .pillar h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+  .pillar p {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  /* ===== MANIFESTO ===== */
+  #manifesto {
+    background: var(--soft);
+    padding: 7rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #manifesto::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(168, 204, 0, 0.1), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .manifesto-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .manifesto-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 1.8rem;
+    padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.6);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+  }
+  .manifesto-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+  }
+  .manifesto-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+  }
+  .manifesto-title .accent-underline {
+    color: var(--navy);
+    position: relative;
+    display: inline-block;
+  }
+  .manifesto-title .accent-underline::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0.05em;
+    width: 100%; height: 0.4em;
+    background: var(--lime);
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .manifesto-sub {
+    font-size: 1.15rem;
+    color: var(--text);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .manifesto-tools {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2.5rem;
+  }
+  .tool-chip {
+    background: var(--white);
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy);
+    border: 1px solid rgba(27, 79, 114, 0.1);
+    transition: all 0.3s;
+  }
+  .tool-chip:hover {
+    border-color: var(--lime);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(27, 79, 114, 0.1);
+  }
+
+  /* ===== METHOD ===== */
+  #method { background: var(--navy); color: var(--white); }
+  #method .section-title { color: var(--white); }
+  #method .section-intro { color: rgba(255,255,255,0.7); }
+  .method-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .step {
+    position: relative;
+    padding: 2rem 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    transition: all 0.3s;
+  }
+  .step:hover {
+    background: rgba(168, 204, 0, 0.08);
+    border-color: var(--lime);
+    transform: translateY(-4px);
+  }
+  .step-num {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--lime);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    margin-bottom: 1rem;
+    font-feature-settings: "tnum";
+  }
+  .step h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+  .step p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+
+  /* ===== WHY ===== */
+  #why { background: var(--white); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .why-card {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .why-card:hover {
+    background: var(--soft);
+    transform: translateX(4px);
+  }
+  .why-num {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--lime-dark);
+    background: var(--white);
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .why-card h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .why-card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  #testimonials {
+    background: var(--white);
+    padding: 6rem 3rem;
+  }
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .testimonial-card {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(27, 79, 114, 0.1);
+  }
+  .testimonial-card .quote-mark {
+    position: absolute;
+    top: -8px;
+    left: 1.5rem;
+    width: 56px; height: 56px;
+    background: var(--lime);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 0;
+    padding-top: 1.4rem;
+    font-family: Georgia, serif;
+  }
+  .testimonial-quote {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+    margin-top: 1.5rem;
+    margin-bottom: 1.8rem;
+    flex-grow: 1;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(27, 79, 114, 0.1);
+  }
+  .author-photo {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--soft);
+    flex-shrink: 0;
+    border: 2px solid var(--white);
+  }
+  .author-photo.placeholder {
+    background: var(--soft) linear-gradient(135deg, var(--soft), var(--lime));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .author-name {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+  }
+  .author-role {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+
+  /* ===== CTA ===== */
+  #contact {
+    background: var(--soft);
+    padding: 6rem 3rem;
+  }
+  .contact-box {
+    background: var(--navy);
+    border-radius: 32px;
+    padding: 4rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .contact-box::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(168, 204, 0, 0.25), transparent 70%);
+    border-radius: 50%;
+  }
+  .contact-box::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -150px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(168, 204, 0, 0.12), transparent 70%);
+    border-radius: 50%;
+  }
+  .contact-box h2 {
+    color: var(--white);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-box p {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-box .cta-btn {
+    background: var(--lime);
+    color: var(--navy);
+  }
+  .contact-box .cta-btn:hover {
+    background: var(--white);
+  }
+  .contact-box .cta-btn.outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .contact-box .cta-btn.outline:hover {
+    background: var(--white);
+    color: var(--navy);
+    border-color: var(--white);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy-dark);
+    color: rgba(255,255,255,0.6);
+    padding: 3rem;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  footer .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .footer-logo {
+    color: var(--white);
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.04em;
+  }
+  footer .footer-logo .ia { color: var(--lime); }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  footer a:hover { color: var(--lime); }
+
+  /* ===== ANIMATIONS ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== QUESTIONNAIRE ===== */
+  .quest-wrap {
+    background: var(--white);
+    border-radius: 32px;
+    padding: 3rem;
+    max-width: 720px;
+    margin: 0 auto;
+    box-shadow: 0 30px 60px rgba(27, 79, 114, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .quest-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--lime), var(--navy));
+  }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+  }
+  .progress-step {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.4s;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .progress-step.active {
+    background: var(--navy);
+    color: var(--white);
+    transform: scale(1.1);
+  }
+  .progress-step.completed {
+    background: var(--lime);
+    color: var(--navy);
+  }
+  .progress-line {
+    flex: 1;
+    max-width: 80px;
+    height: 2px;
+    background: var(--line);
+    margin: 0 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0;
+    background: var(--lime);
+    transition: width 0.5s ease;
+  }
+  .progress-line.completed::after { width: 100%; }
+
+  .form-step {
+    display: none;
+    animation: stepIn 0.4s ease;
+  }
+  .form-step.active { display: block; }
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--lime-dark);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .step-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .step-sub {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .field {
+    margin-bottom: 1.2rem;
+  }
+  .field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .field label .req { color: var(--lime-dark); }
+  .field input[type="text"],
+  .field input[type="email"],
+  .field textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--white);
+    transition: all 0.2s;
+  }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 4px rgba(27, 79, 114, 0.08);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+  }
+  .field.error input,
+  .field.error textarea {
+    border-color: #d64545;
+    background: #fff5f5;
+  }
+  .field-error {
+    color: #d64545;
+    font-size: 0.78rem;
+    margin-top: 0.3rem;
+    display: none;
+  }
+  .field.error .field-error { display: block; }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .option-card {
+    position: relative;
+    cursor: pointer;
+  }
+  .option-card input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .option-card .option-inner {
+    padding: 0.9rem 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .option-card .check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .option-card input[type="checkbox"] ~ .option-inner .check {
+    border-radius: 5px;
+  }
+  .option-card:hover .option-inner {
+    border-color: var(--navy);
+    background: var(--cream);
+  }
+  .option-card input:checked ~ .option-inner {
+    border-color: var(--lime);
+    background: rgba(168, 204, 0, 0.08);
+  }
+  .option-card input:checked ~ .option-inner .check {
+    border-color: var(--lime);
+    background: var(--lime);
+  }
+  .option-card input:checked ~ .option-inner .check::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 5px; height: 9px;
+    border-right: 2px solid var(--navy);
+    border-bottom: 2px solid var(--navy);
+    margin-top: -2px;
+  }
+  .option-card input[type="radio"]:checked ~ .option-inner .check::after {
+    content: '';
+    border: none;
+    width: 8px; height: 8px;
+    background: var(--navy);
+    border-radius: 50%;
+    margin-top: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .step-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .step-actions .right { display: flex; gap: 0.6rem; margin-left: auto; }
+  .btn-step {
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-back {
+    background: transparent;
+    color: var(--muted);
+  }
+  .btn-back:hover { color: var(--navy); background: var(--cream); }
+  .btn-next, .btn-submit {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-next:hover, .btn-submit:hover {
+    background: var(--lime);
+    color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(168, 204, 0, 0.3);
+  }
+  .btn-submit:disabled {
+    background: var(--muted);
+    color: var(--white);
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .form-feedback {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+  }
+  .form-feedback.active { display: block; animation: stepIn 0.5s ease; }
+  .feedback-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 auto 1.5rem;
+    animation: bounceIn 0.6s ease;
+  }
+  .feedback-icon.error { background: #ffd5d5; color: #d64545; }
+  @keyframes bounceIn {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .form-feedback h3 {
+    color: var(--navy);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.02em;
+  }
+  .form-feedback p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+  }
+
+  /* Success state with Cal.com booking */
+  .booking-section {
+    margin-top: 2rem;
+    text-align: left;
+  }
+  .booking-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .booking-divider::before,
+  .booking-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .booking-cta {
+    background: var(--lime);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--navy);
+  }
+  .booking-cta-text {
+    text-align: left;
+    flex: 1;
+  }
+  .booking-cta-text strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 0.1rem;
+  }
+  .booking-cta-text span {
+    font-size: 0.85rem;
+    color: var(--navy);
+    opacity: 0.85;
+  }
+  .booking-cta-icon {
+    font-size: 1.6rem;
+  }
+  #cal-inline {
+    margin-top: 1rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    min-height: 500px;
+    background: var(--white);
+  }
+  .booking-alt {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--cream);
+    border-radius: 12px;
+  }
+  .booking-alt strong {
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .alt-contact {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .alt-contact a {
+    color: var(--navy);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--lime);
+  }
+  .alt-contact a:hover { color: var(--lime-dark); }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero { padding-top: 7rem; }
+    .about-grid, .services-grid, .method-steps, .why-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .hero-stats { gap: 1.5rem; }
+    #empathy { padding: 4rem 1.5rem; }
+    #testimonials { padding: 4rem 1.5rem; }
+    .testimonial-card { padding: 2rem 1.5rem; }
+    .empathy-pillars { grid-template-columns: 1fr; }
+    #manifesto { padding: 4rem 1.5rem; }
+    .quest-wrap { padding: 2rem 1.5rem; border-radius: 24px; }
+    .option-grid { grid-template-columns: 1fr; }
+    .step-title { font-size: 1.3rem; }
+    .progress-line { max-width: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="logo">
+    B<span class="ia">ia</span>si
+    <span class="logo-sub">Solutions</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+    <li><a href="#services" data-i18n="nav.services">Services</a></li>
+    <li><a href="#method" data-i18n="nav.method">Méthode</a></li>
+    <li><a href="#why" data-i18n="nav.why">Pourquoi Biasi</a></li>
+  </ul>
+  <div style="display:flex; gap: 1rem; align-items: center;">
+    <div class="lang-switch">
+      <button onclick="setLang('fr')" id="btn-fr" class="active">FR</button>
+      <button onclick="setLang('es')" id="btn-es">ES</button>
+      <button onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+    <a href="#contact" class="cta-btn" data-i18n="nav.contact">Réserver</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge fade-in">
+      <span class="dot"></span>
+      <span data-i18n="hero.badge">Automatisation & IA pour TPE</span>
+    </div>
+    <h1 class="fade-in" data-i18n="hero.title-html"></h1>
+    <p class="lead fade-in" data-i18n="hero.lead">On traduit l'IA et les automatisations dans votre quotidien. Vous gagnez du temps, sans tout réapprendre.</p>
+    <div class="hero-actions fade-in">
+      <a href="#contact" class="cta-btn">
+        <span data-i18n="hero.cta1">Discuter de mon projet</span>
+        <span>→</span>
+      </a>
+      <a href="#services" class="cta-btn outline" data-i18n="hero.cta2">Voir les services</a>
+    </div>
+    <div class="hero-stats fade-in">
+      <div class="stat">
+        <div class="num">+15-20h</div>
+        <div class="label" data-i18n="hero.stat1">Économisées / mois</div>
+      </div>
+      <div class="stat">
+        <div class="num">100%</div>
+        <div class="label" data-i18n="hero.stat2">Sur mesure</div>
+      </div>
+      <div class="stat">
+        <div class="num">1-3</div>
+        <div class="label" data-i18n="hero.stat3">Semaines de mise en place</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMPATHY -->
+<section id="empathy">
+  <div class="empathy-content fade-in">
+    <span class="empathy-eyebrow" data-i18n="empathy.eyebrow">On vous comprend</span>
+    <h2 class="empathy-title" data-i18n-html="empathy.title">L'IA, les outils, les workflows... ça donne le vertige.<br><span class="normal">C'est normal.</span></h2>
+    <p class="empathy-body" data-i18n="empathy.body">Chaque jour un nouvel outil, une nouvelle promesse, une nouvelle hype. Pour qui dirige une petite structure, c'est épuisant — et inquiétant. Vous n'avez ni l'IT, ni le temps, ni le droit à l'erreur. C'est exactement pour ça que Biasi existe : être votre interlocuteur unique, filtrer le bruit, et choisir avec vous les rares outils qui vont vraiment changer votre quotidien.</p>
+
+    <div class="empathy-pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h4 data-i18n="empathy.p1.title">Votre langage, pas l'ingénierie</h4>
+        <p data-i18n="empathy.p1.desc">Pas de jargon technique. On vous explique tout en mots simples, jusqu'à ce que ce soit clair pour vous.</p>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+        </div>
+        <h4 data-i18n="empathy.p2.title">Ce qui compte, pas ce qui brille</h4>
+        <p data-i18n="empathy.p2.desc">On démarre par ce qui vous fait gagner du temps tout de suite, pas par la techno tendance du moment.</p>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h4 data-i18n="empathy.p3.title">On reste à vos côtés</h4>
+        <p data-i18n="empathy.p3.desc">Le lancement n'est pas la fin. Formation, ajustements, questions : on est là quand vous en avez besoin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <span class="section-label" data-i18n="about.label">À propos</span>
+        <h2 class="section-title" data-i18n="about.title">Je travaille pour les petites entreprises. Avec l'exigence des grandes.</h2>
+        <p data-i18n-html="about.p1">Pourquoi les TPE et les indépendants ? Parce que c'est là qu'un bon système change vraiment le quotidien. Pas de service IT, pas de budget infini, pas de marge d'erreur — et c'est justement là qu'on peut récupérer les heures qui comptent.</p>
+        <p data-i18n-html="about.p2">Mon métier, c'est de <strong>faire le pont entre votre quotidien et la technique</strong> : vous écouter, comprendre où le temps fuit, et construire ce qui vous correspond. Sans jargon, sans solution surdimensionnée, sans vous rendre dépendant·e.</p>
+        <p data-i18n-html="about.p3">Avant Biasi, j'ai passé 12 ans à concevoir des systèmes pour de grandes entreprises. J'y ai appris une chose : la qualité d'un système ne dépend pas de sa taille, mais de son adéquation. Aujourd'hui, je remets cette exigence au service de structures à taille humaine.</p>
+      </div>
+      <div class="about-visual fade-in">
+        <div class="signature">
+          <div class="profile-photo-wrap">
+            <img src="berta-photo.jpg" alt="Berta Arranz Cerezo" class="profile-photo">
+          </div>
+          <div class="name">Berta Arranz Cerezo</div>
+          <div class="role" data-i18n="about.role">Fondatrice — Biasi Solutions</div>
+          <div class="quote" data-i18n="about.quote">« 12 ans à rendre simples des systèmes complexes. Aujourd'hui, pour vous. »</div>
+
+          <div class="credentials">
+            <div class="cred-mini">
+              <span class="chip key" data-i18n="about.cred.exbp">Ex-BP</span>
+              <span class="chip key" data-i18n="about.cred.exacc">Ex-Accenture</span>
+            </div>
+            <div class="cred-mini" style="border-top: none; padding-top: 0.6rem; margin-top: 0;">
+              <span class="chip">SAP FI/CO</span>
+              <span class="chip" data-i18n="about.cred.coupacert">Coupa cert.</span>
+            </div>
+            <div class="cred-mini" style="border-top: none; padding-top: 0.6rem; margin-top: 0;">
+              <span class="chip">Madrid</span>
+              <span class="chip">Budapest</span>
+              <span class="chip" data-i18n="about.cred.london">Londres</span>
+              <span class="chip">Toulouse</span>
+              <span class="sep">·</span>
+              <span class="chip">ES · FR · EN · PT</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <span class="section-label fade-in" data-i18n="services.label">Services</span>
+    <h2 class="section-title fade-in" data-i18n="services.title">Trois leviers pour libérer votre temps.</h2>
+    <p class="section-intro fade-in" data-i18n="services.intro">Chaque service est conçu pour s'intégrer à votre activité existante, sans la bouleverser.</p>
+
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+        </div>
+        <h3 data-i18n="services.s1.title">Automatisation de processus</h3>
+        <p data-i18n="services.s1.desc">Des workflows qui s'exécutent en arrière-plan pour éliminer le travail répétitif.</p>
+        <ul class="service-features">
+          <li data-i18n="services.s1.f1">Facturation automatisée</li>
+          <li data-i18n="services.s1.f2">Synchronisation entre outils</li>
+          <li data-i18n="services.s1.f3">Notifications intelligentes</li>
+          <li data-i18n="services.s1.f4">n8n · Typebot</li>
+        </ul>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2a10 10 0 0 0-7.07 17.07"/>
+            <path d="M12 22a10 10 0 0 0 7.07-17.07"/>
+            <circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <h3 data-i18n="services.s2.title">Intégration d'IA</h3>
+        <p data-i18n="services.s2.desc">Mettre l'intelligence artificielle au service de votre activité, concrètement.</p>
+        <ul class="service-features">
+          <li data-i18n="services.s2.f1">Assistants conversationnels</li>
+          <li data-i18n="services.s2.f2">Brouillons de devis suggérés</li>
+          <li data-i18n="services.s2.f3">Qualification automatique de leads</li>
+          <li data-i18n="services.s2.f4">Analyse de documents</li>
+        </ul>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <h3 data-i18n="services.s3.title">Gestion de tâches & projets</h3>
+        <p data-i18n="services.s3.desc">Des systèmes clairs pour piloter votre activité sans rien perdre de vue.</p>
+        <ul class="service-features">
+          <li data-i18n="services.s3.f1">Espaces de travail sur mesure</li>
+          <li data-i18n="services.s3.f2">Tableaux de bord clients</li>
+          <li data-i18n="services.s3.f3">Suivi de projet automatisé</li>
+          <li data-i18n="services.s3.f4">CRM léger et efficace</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="manifesto-content fade-in">
+    <span class="manifesto-label" data-i18n="manifesto.label">Notre philosophie</span>
+    <h2 class="manifesto-title" data-i18n-html="manifesto.title">On ne vend pas d'outils.<br><span class="accent-underline">On améliore ceux que vous avez.</span></h2>
+    <p class="manifesto-sub" data-i18n="manifesto.sub">Pas de nouveau logiciel imposé, pas d'abonnements inutiles. On part de ce que vous utilisez déjà — Google, Excel, Airtable, ChatGPT, Claude, votre CRM — et on l'amplifie. Pour l'IA en particulier : on passe de « demander à ChatGPT » à « une IA qui connaît votre métier ».</p>
+    <div class="manifesto-tools">
+      <span class="tool-chip">Google</span>
+      <span class="tool-chip">Excel</span>
+      <span class="tool-chip">Airtable</span>
+      <span class="tool-chip">ChatGPT</span>
+      <span class="tool-chip">Claude</span>
+      <span class="tool-chip" data-i18n="manifesto.tools.more">+ vos outils</span>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section id="method">
+  <div class="container">
+    <span class="section-label fade-in" style="color: var(--lime);" data-i18n="method.label">Méthode</span>
+    <h2 class="section-title fade-in" data-i18n="method.title">Une démarche simple, en 4 étapes.</h2>
+    <p class="section-intro fade-in" data-i18n="method.intro">De la première conversation à la mise en production, chaque étape est claire et sans surprise.</p>
+
+    <div class="method-steps">
+      <div class="step fade-in">
+        <div class="step-num">01</div>
+        <h4 data-i18n="method.s1.title">Diagnostic</h4>
+        <p data-i18n="method.s1.desc">On échange 30 min pour identifier vos points de friction et vos vraies priorités.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">02</div>
+        <h4 data-i18n="method.s2.title">Conception</h4>
+        <p data-i18n="method.s2.desc">Je conçois une solution claire, chiffrée, adaptée à votre rythme et votre budget.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">03</div>
+        <h4 data-i18n="method.s3.title">Mise en place</h4>
+        <p data-i18n="method.s3.desc">Construction du système, intégration avec vos outils existants, tests rigoureux.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">04</div>
+        <h4 data-i18n="method.s4.title">Accompagnement</h4>
+        <p data-i18n="method.s4.desc">Formation, maintenance et évolutions. Vous n'êtes jamais seul·e après le lancement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="container">
+    <span class="section-label fade-in" data-i18n="why.label">Pourquoi Biasi</span>
+    <h2 class="section-title fade-in" data-i18n="why.title">Une approche pensée pour les petites structures.</h2>
+    <p class="section-intro fade-in" data-i18n="why.intro">Pas de cabinet, pas d'intermédiaires : un interlocuteur unique qui comprend votre réalité.</p>
+
+    <div class="why-grid">
+      <div class="why-card fade-in">
+        <div class="why-num">01</div>
+        <div>
+          <h4 data-i18n="why.c1.title">Sur mesure, jamais standardisé</h4>
+          <p data-i18n="why.c1.desc">Chaque solution est pensée pour votre métier, vos outils actuels et votre façon de travailler.</p>
+        </div>
+      </div>
+      <div class="why-card fade-in">
+        <div class="why-num">02</div>
+        <div>
+          <h4 data-i18n="why.c2.title">Tarifs transparents</h4>
+          <p data-i18n="why.c2.desc">Devis clair, sans surprise. Des options de paiement flexibles selon le projet, avec maintenance mensuelle en option.</p>
+        </div>
+      </div>
+      <div class="why-card fade-in">
+        <div class="why-num">03</div>
+        <div>
+          <h4 data-i18n="why.c3.title">Vous restez autonome</h4>
+          <p data-i18n="why.c3.desc">Documentation simple et formation incluse. Vous comprenez et contrôlez votre système.</p>
+        </div>
+      </div>
+      <div class="why-card fade-in">
+        <div class="why-num">04</div>
+        <div>
+          <h4 data-i18n="why.c4.title">Bilingue & international</h4>
+          <p data-i18n="why.c4.desc">Accompagnement en français et en espagnol. Idéal pour les structures avec une activité transfrontalière.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testimonials-header fade-in">
+      <span class="section-label" data-i18n="testi.label">Ils nous font confiance</span>
+      <h2 class="section-title" style="margin: 0 auto;" data-i18n="testi.title">Ce qu'en disent nos clients.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-quote" data-i18n="testi.t1.quote">Berta nous a accompagnés de A à Z dans la mise en place du CRM B2B de La Popote Brasil : benchmark des solutions, migration des données et automatisations intelligentes via l'IA. Réactive, organisée, impliquée — nous avons aujourd'hui une structure bien plus professionnelle et adaptée à notre croissance. Je recommande son travail sans hésitation.</p>
+        <div class="testimonial-author">
+          <div class="author-photo placeholder">E</div>
+          <div>
+            <div class="author-name">Emilie</div>
+            <div class="author-role" data-i18n="testi.t1.role">Fondatrice & Directrice, La Popote Brasil</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / QUESTIONNAIRE -->
+<section id="contact">
+  <div style="text-align:center; max-width: 700px; margin: 0 auto 3rem;">
+    <span class="section-label fade-in" data-i18n="contact.label">Premier contact</span>
+    <h2 class="section-title fade-in" style="margin: 0 auto 1rem;" data-i18n="contact.title">On reprend votre temps ?</h2>
+    <p class="section-intro fade-in" style="margin: 0 auto;" data-i18n="contact.lead">Trois petites questions avant qu'on échange — moins de 2 minutes. Premier appel gratuit, sans engagement.</p>
+  </div>
+
+  <div class="quest-wrap fade-in">
+    <!-- Progress -->
+    <div class="progress-bar">
+      <div class="progress-step active" data-bar="1">1</div>
+      <div class="progress-line" data-line="1-2"></div>
+      <div class="progress-step" data-bar="2">2</div>
+      <div class="progress-line" data-line="2-3"></div>
+      <div class="progress-step" data-bar="3">3</div>
+    </div>
+
+    <form id="biasi-form" novalidate>
+      <!-- STEP 1 -->
+      <div class="form-step active" data-step="1">
+        <div class="step-eyebrow" data-i18n="q.s1.eyebrow">Étape 1 / 3</div>
+        <h3 class="step-title" data-i18n="q.s1.title">Faisons connaissance</h3>
+        <p class="step-sub" data-i18n="q.s1.sub">Quelques infos pour pouvoir vous recontacter.</p>
+
+        <div class="field">
+          <label data-i18n-label="q.s1.name">Votre nom <span class="req">*</span></label>
+          <input type="text" name="name" data-i18n-placeholder="q.s1.name.ph" placeholder="Prénom Nom" required>
+          <div class="field-error" data-i18n="q.err.name">Merci d'indiquer votre nom.</div>
+        </div>
+
+        <div class="field">
+          <label data-i18n-label="q.s1.email">Email <span class="req">*</span></label>
+          <input type="email" name="email" data-i18n-placeholder="q.s1.email.ph" placeholder="vous@exemple.com" required>
+          <div class="field-error" data-i18n="q.err.email">Email invalide.</div>
+        </div>
+
+        <div class="field">
+          <label data-i18n-label="q.s1.company">Entreprise <span style="color: var(--muted); font-weight: 400;" data-i18n="q.optional">(facultatif)</span></label>
+          <input type="text" name="company" data-i18n-placeholder="q.s1.company.ph" placeholder="Nom de votre structure">
+        </div>
+
+        <div class="step-actions">
+          <div class="right">
+            <button type="button" class="btn-step btn-next" data-next>
+              <span data-i18n="q.btn.next">Suivant</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="form-step" data-step="2">
+        <div class="step-eyebrow" data-i18n="q.s2.eyebrow">Étape 2 / 3</div>
+        <h3 class="step-title" data-i18n="q.s2.title">Votre activité</h3>
+        <p class="step-sub" data-i18n="q.s2.sub">Pour adapter mes recommandations à votre réalité.</p>
+
+        <div class="field">
+          <label data-i18n-label="q.s2.size">Taille de votre structure <span class="req">*</span></label>
+          <div class="option-grid">
+            <label class="option-card">
+              <input type="radio" name="size" value="solo" required>
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s2.size.solo">Indépendant·e</span></div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="size" value="2-5">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s2.size.small">2 – 5 personnes</span></div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="size" value="6-20">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s2.size.medium">6 – 20 personnes</span></div>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="size" value="20+">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s2.size.large">Plus de 20</span></div>
+            </label>
+          </div>
+          <div class="field-error" data-i18n="q.err.size">Merci de sélectionner une option.</div>
+        </div>
+
+        <div class="field">
+          <label data-i18n-label="q.s2.sector">Votre secteur d'activité <span style="color: var(--muted); font-weight: 400;" data-i18n="q.optional">(facultatif)</span></label>
+          <input type="text" name="sector" data-i18n-placeholder="q.s2.sector.ph" placeholder="Ex. conseil, e-commerce, artisanat...">
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-step btn-back" data-back>
+            <span>←</span>
+            <span data-i18n="q.btn.back">Retour</span>
+          </button>
+          <div class="right">
+            <button type="button" class="btn-step btn-next" data-next>
+              <span data-i18n="q.btn.next">Suivant</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="form-step" data-step="3">
+        <div class="step-eyebrow" data-i18n="q.s3.eyebrow">Étape 3 / 3</div>
+        <h3 class="step-title" data-i18n="q.s3.title">Votre besoin</h3>
+        <p class="step-sub" data-i18n="q.s3.sub">Qu'est-ce qui vous prend le plus de temps aujourd'hui ?</p>
+
+        <div class="field">
+          <label data-i18n-label="q.s3.pain">Sélectionnez ce qui vous concerne <span class="req">*</span></label>
+          <div class="option-grid">
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="invoicing">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.inv">Facturation / Admin</span></div>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="email">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.email">Emails répétitifs</span></div>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="crm">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.crm">Gestion clients</span></div>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="projects">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.proj">Organisation de projets</span></div>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="reports">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.rep">Rapports / Données</span></div>
+            </label>
+            <label class="option-card">
+              <input type="checkbox" name="pain" value="other">
+              <div class="option-inner"><span class="check"></span><span data-i18n="q.s3.pain.other">Autre chose</span></div>
+            </label>
+          </div>
+          <div class="field-error" data-i18n="q.err.pain">Sélectionnez au moins une option.</div>
+        </div>
+
+        <div class="field">
+          <label data-i18n-label="q.s3.msg">Décrivez votre situation en quelques mots <span style="color: var(--muted); font-weight: 400;" data-i18n="q.optional">(facultatif)</span></label>
+          <textarea name="message" data-i18n-placeholder="q.s3.msg.ph" placeholder="Quel est le contexte ? Quels outils utilisez-vous aujourd'hui ?"></textarea>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-step btn-back" data-back>
+            <span>←</span>
+            <span data-i18n="q.btn.back">Retour</span>
+          </button>
+          <div class="right">
+            <button type="submit" class="btn-step btn-submit" id="submit-btn">
+              <span data-i18n="q.btn.send">Envoyer</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="form-feedback" id="form-success">
+        <div class="feedback-icon">✓</div>
+        <h3 data-i18n="q.success.title">Merci !</h3>
+        <p data-i18n="q.success.msg">J'ai bien reçu vos réponses. Vous pouvez maintenant choisir votre créneau directement, ou attendre que je vous recontacte.</p>
+
+        <div class="booking-section">
+          <div class="booking-cta">
+            <div class="booking-cta-text">
+              <strong data-i18n="q.book.title">Réserver maintenant</strong>
+              <span data-i18n="q.book.sub">Discovery 20 min, gratuit · Choisissez votre créneau ↓</span>
+            </div>
+            <div class="booking-cta-icon">📅</div>
+          </div>
+
+          <!-- Cal.com inline embed -->
+          <div id="cal-inline"></div>
+
+          <div class="booking-divider"><span data-i18n="q.book.or">ou</span></div>
+
+          <div class="booking-alt">
+            <span data-i18n="q.book.alt">Pas pressé·e ? Pas de problème — je vous recontacte sous 24 – 48h.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div class="form-feedback" id="form-error">
+        <div class="feedback-icon error">!</div>
+        <h3 data-i18n="q.error.title">Oups, un souci</h3>
+        <p data-i18n="q.error.msg">L'envoi n'a pas fonctionné. Vous pouvez réessayer ou m'écrire directement.</p>
+        <a href="mailto:contact@biasi-solutions.com" class="cta-btn" data-i18n="q.error.cta">contact@biasi-solutions.com</a>
+      </div>
+    </form>
+  </div>
+
+  <p class="alt-contact fade-in" data-i18n-html="contact.alt">
+    Pas envie de remplir un formulaire ? Écrivez-moi à <a href="mailto:contact@biasi-solutions.com">contact@biasi-solutions.com</a>
+  </p>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-logo">B<span class="ia">ia</span>si Solutions</div>
+    <div>
+      <span data-i18n="footer.copyright">© 2026 Biasi Solutions — Berta Arranz Cerezo</span>
+      <br>
+      <span style="font-size: 0.75rem;" data-i18n="footer.legal">SIRET 10272746800013 · TVA non applicable, art. 293 B du CGI</span>
+    </div>
+    <a href="mailto:contact@biasi-solutions.com">contact@biasi-solutions.com</a>
+  </div>
+</footer>
+
+<script>
+// ===== I18N =====
+const translations = {
+  fr: {
+    "nav.about": "À propos",
+    "nav.services": "Services",
+    "nav.method": "Méthode",
+    "nav.why": "Pourquoi Biasi",
+    "nav.contact": "Réserver",
+
+    "hero.badge": "Automatisation & IA pour TPE",
+    "hero.title-html": "Automatisation & IA.<br>Sur <span class='accent'>mesure</span>.",
+    "hero.lead": "On traduit l'IA et les automatisations dans votre quotidien. Vous gagnez du temps, sans tout réapprendre.",
+    "hero.cta1": "Discuter de mon projet",
+    "hero.cta2": "Voir les services",
+    "hero.stat1": "Économisées / mois",
+    "hero.stat2": "Sur mesure",
+    "hero.stat3": "Semaines de mise en place",
+
+    "about.label": "À propos",
+    "about.title": "Je travaille pour les petites entreprises. Avec l'exigence des grandes.",
+    "about.p1": "Pourquoi les TPE et les indépendants ? Parce que c'est là qu'un bon système change vraiment le quotidien. Pas de service IT, pas de budget infini, pas de marge d'erreur — et c'est justement là qu'on peut récupérer les heures qui comptent.",
+    "about.p2": "Mon métier, c'est de <strong>faire le pont entre votre quotidien et la technique</strong> : vous écouter, comprendre où le temps fuit, et construire ce qui vous correspond. Sans jargon, sans solution surdimensionnée, sans vous rendre dépendant·e.",
+    "about.p3": "Avant Biasi, 12 ans dans de grands groupes — <strong>BP</strong> sur SAP et la finance, puis <strong>Accenture</strong> sur le déploiement de Coupa pour <strong>un leader mondial de l'aéronautique</strong>. J'y ai appris une chose : la qualité d'un système ne dépend pas de sa taille, mais de son adéquation. Aujourd'hui, je remets cette exigence au service de structures à taille humaine.",
+    "about.role": "Fondatrice — Biasi Solutions",
+    "about.quote": "« 12 ans à rendre simples des systèmes complexes. Aujourd'hui, pour vous. »",
+    "about.cred.exbp": "Ex-BP",
+    "about.cred.exacc": "Ex-Accenture",
+    "about.cred.coupacert": "Coupa cert.",
+    "about.cred.london": "Londres",
+
+    "services.label": "Services",
+    "services.title": "Trois leviers pour libérer votre temps.",
+    "services.intro": "Chaque service est conçu pour s'intégrer à votre activité existante, sans la bouleverser.",
+    "services.s1.title": "Automatisation de processus",
+    "services.s1.desc": "Des workflows qui s'exécutent en arrière-plan pour éliminer le travail répétitif.",
+    "services.s1.f1": "Facturation automatisée",
+    "services.s1.f2": "Synchronisation entre outils",
+    "services.s1.f3": "Notifications intelligentes",
+    "services.s1.f4": "n8n · Typebot",
+    "services.s2.title": "Intégration d'IA",
+    "services.s2.desc": "Mettre l'intelligence artificielle au service de votre activité, concrètement.",
+    "services.s2.f1": "Assistants conversationnels",
+    "services.s2.f2": "Brouillons de devis suggérés",
+    "services.s2.f3": "Qualification automatique de leads",
+    "services.s2.f4": "Analyse de documents",
+    "services.s3.title": "Gestion de tâches & projets",
+    "services.s3.desc": "Des systèmes clairs pour piloter votre activité sans rien perdre de vue.",
+    "services.s3.f1": "Espaces de travail sur mesure",
+    "services.s3.f2": "Tableaux de bord clients",
+    "services.s3.f3": "Suivi de projet automatisé",
+    "services.s3.f4": "CRM léger et efficace",
+
+    "empathy.eyebrow": "On vous comprend",
+    "empathy.title": "L'IA, les outils, les workflows... ça donne le vertige.<br><span class='normal'>C'est normal.</span>",
+    "empathy.body": "Chaque jour un nouvel outil, une nouvelle promesse, une nouvelle hype. Pour qui dirige une petite structure, c'est épuisant — et inquiétant. Vous n'avez ni l'IT, ni le temps, ni le droit à l'erreur. C'est exactement pour ça que Biasi existe : être votre interlocuteur unique, filtrer le bruit, et choisir avec vous les rares outils qui vont vraiment changer votre quotidien.",
+    "empathy.p1.title": "Votre langage, pas l'ingénierie",
+    "empathy.p1.desc": "Pas de jargon technique. On vous explique tout en mots simples, jusqu'à ce que ce soit clair pour vous.",
+    "empathy.p2.title": "Ce qui compte, pas ce qui brille",
+    "empathy.p2.desc": "On démarre par ce qui vous fait gagner du temps tout de suite, pas par la techno tendance du moment.",
+    "empathy.p3.title": "On reste à vos côtés",
+    "empathy.p3.desc": "Le lancement n'est pas la fin. Formation, ajustements, questions : on est là quand vous en avez besoin.",
+
+    "manifesto.label": "Notre philosophie",
+    "manifesto.title": "On ne vend pas d'outils.<br><span class='accent-underline'>On améliore ceux que vous avez.</span>",
+    "manifesto.sub": "Pas de nouveau logiciel imposé, pas d'abonnements inutiles. On part de ce que vous utilisez déjà — Google, Excel, Airtable, ChatGPT, Claude, votre CRM — et on l'amplifie. Pour l'IA en particulier : on passe de « demander à ChatGPT » à « une IA qui connaît votre métier ».",
+    "manifesto.tools.more": "+ vos outils",
+
+    "method.label": "Méthode",
+    "method.title": "Une démarche simple, en 4 étapes.",
+    "method.intro": "De la première conversation à la mise en production, chaque étape est claire et sans surprise.",
+    "method.s1.title": "Diagnostic",
+    "method.s1.desc": "On échange 30 min pour identifier vos points de friction et vos vraies priorités.",
+    "method.s2.title": "Conception",
+    "method.s2.desc": "Je conçois une solution claire, chiffrée, adaptée à votre rythme et votre budget.",
+    "method.s3.title": "Mise en place",
+    "method.s3.desc": "Construction du système, intégration avec vos outils existants, tests rigoureux.",
+    "method.s4.title": "Accompagnement",
+    "method.s4.desc": "Formation, maintenance et évolutions. Vous n'êtes jamais seul·e après le lancement.",
+
+    "why.label": "Pourquoi Biasi",
+    "why.title": "Une approche pensée pour les petites structures.",
+    "why.intro": "Pas de cabinet, pas d'intermédiaires : un interlocuteur unique qui comprend votre réalité.",
+    "why.c1.title": "Sur mesure, jamais standardisé",
+    "why.c1.desc": "Chaque solution est pensée pour votre métier, vos outils actuels et votre façon de travailler.",
+    "why.c2.title": "Tarifs transparents",
+    "why.c2.desc": "Devis clair, sans surprise. Des options de paiement flexibles selon le projet, avec maintenance mensuelle en option.",
+    "why.c3.title": "Vous restez autonome",
+    "why.c3.desc": "Documentation simple et formation incluse. Vous comprenez et contrôlez votre système.",
+    "why.c4.title": "Multilingue & international",
+    "why.c4.desc": "Accompagnement en français, espagnol et anglais. Idéal pour les structures avec une activité transfrontalière.",
+
+    "testi.label": "Ils nous font confiance",
+    "testi.title": "Ce qu'en disent nos clients.",
+    "testi.t1.quote": "Berta nous a accompagnés de A à Z dans la mise en place du CRM B2B de La Popote Brasil : benchmark des solutions, migration des données et automatisations intelligentes via l'IA. Réactive, organisée, impliquée — nous avons aujourd'hui une structure bien plus professionnelle et adaptée à notre croissance. Je recommande son travail sans hésitation.",
+    "testi.t1.role": "Fondatrice & Directrice, La Popote Brasil",
+
+    "contact.label": "Premier contact",
+    "contact.title": "On reprend votre temps ?",
+    "contact.lead": "Trois petites questions avant qu'on échange — moins de 2 minutes. Premier appel gratuit, sans engagement.",
+    "contact.alt": "Pas envie de remplir un formulaire ? Écrivez-moi à <a href='mailto:contact@biasi-solutions.com'>contact@biasi-solutions.com</a>",
+
+    "q.optional": "(facultatif)",
+    "q.btn.next": "Suivant",
+    "q.btn.back": "Retour",
+    "q.btn.send": "Envoyer",
+    "q.btn.sending": "Envoi en cours...",
+
+    "q.s1.eyebrow": "Étape 1 / 3",
+    "q.s1.title": "Faisons connaissance",
+    "q.s1.sub": "Quelques infos pour pouvoir vous recontacter.",
+    "q.s1.name": "Votre nom",
+    "q.s1.name.ph": "Prénom Nom",
+    "q.s1.email": "Email",
+    "q.s1.email.ph": "vous@exemple.com",
+    "q.s1.company": "Entreprise",
+    "q.s1.company.ph": "Nom de votre structure",
+
+    "q.s2.eyebrow": "Étape 2 / 3",
+    "q.s2.title": "Votre activité",
+    "q.s2.sub": "Pour adapter mes recommandations à votre réalité.",
+    "q.s2.size": "Taille de votre structure",
+    "q.s2.size.solo": "Indépendant·e",
+    "q.s2.size.small": "2 – 5 personnes",
+    "q.s2.size.medium": "6 – 20 personnes",
+    "q.s2.size.large": "Plus de 20",
+    "q.s2.sector": "Votre secteur d'activité",
+    "q.s2.sector.ph": "Ex. conseil, e-commerce, artisanat...",
+
+    "q.s3.eyebrow": "Étape 3 / 3",
+    "q.s3.title": "Votre besoin",
+    "q.s3.sub": "Qu'est-ce qui vous prend le plus de temps aujourd'hui ?",
+    "q.s3.pain": "Sélectionnez ce qui vous concerne",
+    "q.s3.pain.inv": "Facturation / Admin",
+    "q.s3.pain.email": "Emails répétitifs",
+    "q.s3.pain.crm": "Gestion clients",
+    "q.s3.pain.proj": "Organisation de projets",
+    "q.s3.pain.rep": "Rapports / Données",
+    "q.s3.pain.other": "Autre chose",
+    "q.s3.msg": "Décrivez votre situation en quelques mots",
+    "q.s3.msg.ph": "Quel est le contexte ? Quels outils utilisez-vous aujourd'hui ?",
+
+    "q.err.name": "Merci d'indiquer votre nom.",
+    "q.err.email": "Email invalide.",
+    "q.err.size": "Merci de sélectionner une option.",
+    "q.err.pain": "Sélectionnez au moins une option.",
+
+    "q.success.title": "Merci !",
+    "q.success.msg": "J'ai bien reçu vos réponses. Vous pouvez maintenant choisir votre créneau directement, ou attendre que je vous recontacte.",
+    "q.book.title": "Réserver maintenant",
+    "q.book.sub": "Discovery 20 min, gratuit · Choisissez votre créneau ↓",
+    "q.book.or": "ou",
+    "q.book.alt": "Pas pressé·e ? Pas de problème — je vous recontacte sous 24 – 48h.",
+    "q.error.title": "Oups, un souci",
+    "q.error.msg": "L'envoi n'a pas fonctionné. Vous pouvez réessayer ou m'écrire directement.",
+    "q.error.cta": "contact@biasi-solutions.com",
+
+    "footer.copyright": "© 2026 Biasi Solutions — Berta Arranz Cerezo",
+    "footer.legal": "SIRET 10272746800013 · TVA non applicable, art. 293 B du CGI"
+  },
+  es: {
+    "nav.about": "Sobre mí",
+    "nav.services": "Servicios",
+    "nav.method": "Método",
+    "nav.why": "Por qué Biasi",
+    "nav.contact": "Reservar",
+
+    "hero.badge": "Automatización & IA para pequeñas empresas",
+    "hero.title-html": "Automatización e IA.<br>A <span class='accent'>medida</span>.",
+    "hero.lead": "Traducimos la IA y las automatizaciones a tu día a día. Ganas tiempo, sin tener que reaprender todo.",
+    "hero.cta1": "Hablemos de tu proyecto",
+    "hero.cta2": "Ver los servicios",
+    "hero.stat1": "Ahorradas / mes",
+    "hero.stat2": "A medida",
+    "hero.stat3": "Semanas de implementación",
+
+    "about.label": "Sobre mí",
+    "about.title": "Trabajo para pequeñas empresas. Con el rigor de las grandes.",
+    "about.p1": "¿Por qué pymes y autónomos? Porque es donde un buen sistema cambia de verdad el día a día. Sin departamento de IT, sin presupuesto infinito, sin margen de error — y es justamente ahí donde se recuperan las horas que importan.",
+    "about.p2": "Mi oficio es <strong>tender el puente entre tu día a día y lo técnico</strong>: escucharte, entender dónde se esfuma el tiempo y construir lo que te encaja. Sin jerga, sin sobredimensionar, sin hacerte dependiente.",
+    "about.p3": "Antes de Biasi, pasé 12 años en grandes grupos — <strong>BP</strong> en SAP y finanzas, después <strong>Accenture</strong> desplegando Coupa para <strong>un líder mundial de la aeronáutica</strong>. Allí aprendí una cosa: la calidad de un sistema no depende de su tamaño, sino de lo bien que encaja con quien lo usa. Hoy traigo ese rigor a estructuras a escala humana.",
+    "about.role": "Fundadora — Biasi Solutions",
+    "about.cred.exbp": "Ex-BP",
+    "about.cred.exacc": "Ex-Accenture",
+    "about.cred.coupacert": "Coupa cert.",
+    "about.cred.london": "Londres",
+    "about.quote": "« 12 años haciendo simples los sistemas complejos. Hoy, para ti. »",
+    "about.cred.london": "Londres",
+
+    "services.label": "Servicios",
+    "services.title": "Tres palancas para liberar tu tiempo.",
+    "services.intro": "Cada servicio se integra en tu actividad actual, sin romper lo que ya funciona.",
+    "services.s1.title": "Automatización de procesos",
+    "services.s1.desc": "Workflows que se ejecutan en segundo plano y eliminan el trabajo repetitivo.",
+    "services.s1.f1": "Facturación automatizada",
+    "services.s1.f2": "Sincronización entre herramientas",
+    "services.s1.f3": "Notificaciones inteligentes",
+    "services.s1.f4": "n8n · Typebot",
+    "services.s2.title": "Integración de IA",
+    "services.s2.desc": "Poner la inteligencia artificial al servicio de tu negocio, de forma concreta.",
+    "services.s2.f1": "Asistentes conversacionales",
+    "services.s2.f2": "Borradores de presupuestos sugeridos",
+    "services.s2.f3": "Cualificación automática de leads",
+    "services.s2.f4": "Análisis de documentos",
+    "services.s3.title": "Gestión de tareas y proyectos",
+    "services.s3.desc": "Sistemas claros para dirigir tu actividad sin perder nada de vista.",
+    "services.s3.f1": "Espacios de trabajo a medida",
+    "services.s3.f2": "Paneles para clientes",
+    "services.s3.f3": "Seguimiento automatizado",
+    "services.s3.f4": "CRM ligero y eficaz",
+
+    "empathy.eyebrow": "Te entendemos",
+    "empathy.title": "La IA, las herramientas, los workflows... abruman.<br><span class='normal'>Es normal.</span>",
+    "empathy.body": "Cada día una herramienta nueva, una promesa nueva, un hype nuevo. Para quien dirige una estructura pequeña, es agotador — y preocupante. No tienes departamento informático, ni tiempo, ni margen de error. Por eso existe Biasi: para ser tu único interlocutor, filtrar el ruido y elegir contigo las pocas herramientas que de verdad cambian tu día a día.",
+    "empathy.p1.title": "Tu idioma, no el de los ingenieros",
+    "empathy.p1.desc": "Sin jerga técnica. Te explicamos todo en palabras simples, hasta que te quede claro.",
+    "empathy.p2.title": "Lo que importa, no lo que brilla",
+    "empathy.p2.desc": "Empezamos por lo que te ahorra tiempo ya, no por la tecnología de moda del momento.",
+    "empathy.p3.title": "Seguimos a tu lado",
+    "empathy.p3.desc": "El lanzamiento no es el final. Formación, ajustes, dudas: cuentas con nosotros.",
+
+    "manifesto.label": "Nuestra filosofía",
+    "manifesto.title": "No vendemos herramientas.<br><span class='accent-underline'>Mejoramos las que ya tienes.</span>",
+    "manifesto.sub": "Sin software impuesto, sin suscripciones innecesarias. Partimos de lo que ya usas — Google, Excel, Airtable, ChatGPT, Claude, tu CRM — y lo potenciamos. Para la IA en particular: pasamos de «preguntarle a ChatGPT» a «una IA que conoce tu negocio».",
+    "manifesto.tools.more": "+ tus herramientas",
+
+    "method.label": "Método",
+    "method.title": "Un enfoque simple, en 4 pasos.",
+    "method.intro": "Desde la primera conversación hasta la puesta en producción, cada paso es claro y sin sorpresas.",
+    "method.s1.title": "Diagnóstico",
+    "method.s1.desc": "Conversamos 30 min para identificar tus puntos de fricción y prioridades reales.",
+    "method.s2.title": "Diseño",
+    "method.s2.desc": "Diseño una solución clara, presupuestada y adaptada a tu ritmo y presupuesto.",
+    "method.s3.title": "Implementación",
+    "method.s3.desc": "Construcción del sistema, integración con tus herramientas y pruebas rigurosas.",
+    "method.s4.title": "Acompañamiento",
+    "method.s4.desc": "Formación, mantenimiento y evoluciones. Nunca estás solo·a después del lanzamiento.",
+
+    "why.label": "Por qué Biasi",
+    "why.title": "Un enfoque pensado para estructuras pequeñas.",
+    "why.intro": "Sin agencias, sin intermediarios: un único interlocutor que entiende tu realidad.",
+    "why.c1.title": "A medida, nunca estándar",
+    "why.c1.desc": "Cada solución se piensa para tu oficio, tus herramientas y tu forma de trabajar.",
+    "why.c2.title": "Tarifas transparentes",
+    "why.c2.desc": "Presupuesto claro, sin sorpresas. Opciones de pago flexibles según el proyecto, con mantenimiento mensual opcional.",
+    "why.c3.title": "Tú sigues siendo autónomo",
+    "why.c3.desc": "Documentación simple y formación incluida. Entiendes y controlas tu sistema.",
+    "why.c4.title": "Multilingüe e internacional",
+    "why.c4.desc": "Acompañamiento en francés, español e inglés. Ideal para estructuras con actividad transfronteriza.",
+
+    "testi.label": "Confían en nosotros",
+    "testi.title": "Lo que dicen nuestros clientes.",
+    "testi.t1.quote": "Berta nos acompañó de la A a la Z en la implementación del CRM B2B de La Popote Brasil: benchmark de soluciones, migración de datos y automatizaciones inteligentes con IA. Reactiva, organizada, implicada — hoy tenemos una estructura mucho más profesional y adaptada a nuestro crecimiento. Recomiendo su trabajo sin dudarlo.",
+    "testi.t1.role": "Fundadora y Directora, La Popote Brasil",
+
+    "contact.label": "Primer contacto",
+    "contact.title": "¿Recuperamos tu tiempo?",
+    "contact.lead": "Tres preguntas rápidas antes de hablar — menos de 2 minutos. Primera llamada gratis, sin compromiso.",
+    "contact.alt": "¿No quieres rellenar un formulario? Escríbeme a <a href='mailto:contact@biasi-solutions.com'>contact@biasi-solutions.com</a>",
+
+    "q.optional": "(opcional)",
+    "q.btn.next": "Siguiente",
+    "q.btn.back": "Atrás",
+    "q.btn.send": "Enviar",
+    "q.btn.sending": "Enviando...",
+
+    "q.s1.eyebrow": "Paso 1 / 3",
+    "q.s1.title": "Hagamos conocimientos",
+    "q.s1.sub": "Algunos datos para poder contactarte.",
+    "q.s1.name": "Tu nombre",
+    "q.s1.name.ph": "Nombre y apellidos",
+    "q.s1.email": "Email",
+    "q.s1.email.ph": "tu@ejemplo.com",
+    "q.s1.company": "Empresa",
+    "q.s1.company.ph": "Nombre de tu estructura",
+
+    "q.s2.eyebrow": "Paso 2 / 3",
+    "q.s2.title": "Tu actividad",
+    "q.s2.sub": "Para adaptar mis recomendaciones a tu realidad.",
+    "q.s2.size": "Tamaño de tu estructura",
+    "q.s2.size.solo": "Autónomo·a",
+    "q.s2.size.small": "2 – 5 personas",
+    "q.s2.size.medium": "6 – 20 personas",
+    "q.s2.size.large": "Más de 20",
+    "q.s2.sector": "Tu sector de actividad",
+    "q.s2.sector.ph": "Ej. consultoría, e-commerce, artesanía...",
+
+    "q.s3.eyebrow": "Paso 3 / 3",
+    "q.s3.title": "Tu necesidad",
+    "q.s3.sub": "¿Qué te quita más tiempo hoy en día?",
+    "q.s3.pain": "Marca lo que te aplique",
+    "q.s3.pain.inv": "Facturación / Admin",
+    "q.s3.pain.email": "Emails repetitivos",
+    "q.s3.pain.crm": "Gestión de clientes",
+    "q.s3.pain.proj": "Organización de proyectos",
+    "q.s3.pain.rep": "Informes / Datos",
+    "q.s3.pain.other": "Otra cosa",
+    "q.s3.msg": "Describe tu situación en pocas palabras",
+    "q.s3.msg.ph": "¿Cuál es el contexto? ¿Qué herramientas usas hoy?",
+
+    "q.err.name": "Por favor, indica tu nombre.",
+    "q.err.email": "Email no válido.",
+    "q.err.size": "Selecciona una opción.",
+    "q.err.pain": "Selecciona al menos una opción.",
+
+    "q.success.title": "¡Gracias!",
+    "q.success.msg": "He recibido tus respuestas. Ahora puedes elegir tu horario directamente, o esperar a que te contacte.",
+    "q.book.title": "Reservar ahora",
+    "q.book.sub": "Discovery 20 min, gratis · Elige tu hueco ↓",
+    "q.book.or": "o",
+    "q.book.alt": "¿Sin prisa? Sin problema — te contacto en 24 – 48h.",
+    "q.error.title": "Vaya, ha fallado algo",
+    "q.error.msg": "El envío no ha funcionado. Puedes intentarlo de nuevo o escribirme directamente.",
+    "q.error.cta": "contact@biasi-solutions.com",
+
+    "footer.copyright": "© 2026 Biasi Solutions — Berta Arranz Cerezo",
+    "footer.legal": "SIRET 10272746800013 · TVA no aplicable, art. 293 B del CGI"
+  },
+  en: {
+    "nav.about": "About",
+    "nav.services": "Services",
+    "nav.method": "Method",
+    "nav.why": "Why us",
+    "nav.contact": "Book a call",
+
+    "hero.badge": "Automation & AI for small business",
+    "hero.title-html": "Automation & AI.<br>Built for <span class='accent'>you</span>.",
+    "hero.lead": "We translate AI and automation into your day-to-day — so you get your time back, without relearning everything.",
+    "hero.cta1": "Let's talk about your project",
+    "hero.cta2": "See the services",
+    "hero.stat1": "Saved / month",
+    "hero.stat2": "Tailored",
+    "hero.stat3": "Weeks to implement",
+
+    "about.label": "About",
+    "about.title": "I work for small businesses — with enterprise-grade rigor.",
+    "about.p1": "Why small businesses and freelancers? Because that's where a good system makes the biggest difference. No IT department, no unlimited budget, no room for error — and that's exactly where you can win back the hours that matter.",
+    "about.p2": "My job is to <strong>bridge the gap between your day-to-day and the tech</strong>: listen, find where your time goes, and build something that fits you. No jargon, no oversized solutions, no lock-in.",
+    "about.p3": "Before Biasi, 12 years in major enterprises — <strong>BP</strong> (SAP and finance), then <strong>Accenture</strong> (rolling out Coupa for <strong>a global aerospace leader</strong>). I learned one thing there: the quality of a system doesn't come from its size, but from its fit. Today, I bring that same standard to small businesses.",
+    "about.role": "Founder — Biasi Solutions",
+    "about.quote": "« 12 years making complex systems simple. Now, for you. »",
+    "about.cred.exbp": "Ex-BP",
+    "about.cred.exacc": "Ex-Accenture",
+    "about.cred.coupacert": "Coupa cert.",
+    "about.cred.london": "London",
+
+    "empathy.eyebrow": "We get it",
+    "empathy.title": "AI, tools, workflows... it's overwhelming.<br><span class='normal'>That's normal.</span>",
+    "empathy.body": "Every day a new tool, a new promise, a new hype cycle. For someone running a small business, it's exhausting — and stressful. You don't have an IT team, you don't have time, you can't afford to get it wrong. That's exactly why Biasi exists: to be your single point of contact, cut through the noise, and help you pick the few tools that actually make a difference.",
+    "empathy.p1.title": "Your language, not engineer-speak",
+    "empathy.p1.desc": "No technical jargon. We explain everything in plain language, until it's crystal clear.",
+    "empathy.p2.title": "What matters, not what's shiny",
+    "empathy.p2.desc": "We start with what saves you time right now, not with whatever tech is trending this month.",
+    "empathy.p3.title": "We stay by your side",
+    "empathy.p3.desc": "Launch isn't the end. Training, tweaks, questions — we're here when you need us.",
+
+    "manifesto.label": "Our philosophy",
+    "manifesto.title": "We don't sell tools.<br><span class='accent-underline'>We improve the ones you already have.</span>",
+    "manifesto.sub": "No software pushed on you, no unnecessary subscriptions. We start from what you already use — Google, Excel, Airtable, ChatGPT, Claude, your CRM — and amplify it. For AI specifically: we move you from \"asking ChatGPT\" to \"AI that actually knows your business\".",
+    "manifesto.tools.more": "+ your tools",
+
+    "services.label": "Services",
+    "services.title": "Three levers to free up your time.",
+    "services.intro": "Each service is built to fit how you already work — without disrupting it.",
+    "services.s1.title": "Process automation",
+    "services.s1.desc": "Workflows running in the background to eliminate repetitive work.",
+    "services.s1.f1": "Automated invoicing",
+    "services.s1.f2": "Cross-tool synchronization",
+    "services.s1.f3": "Smart notifications",
+    "services.s1.f4": "n8n · Typebot",
+    "services.s2.title": "AI integration",
+    "services.s2.desc": "Real, practical ways to put AI to work in your business.",
+    "services.s2.f1": "Conversational assistants",
+    "services.s2.f2": "AI-suggested quote drafts",
+    "services.s2.f3": "Automatic lead qualification",
+    "services.s2.f4": "Document analysis",
+    "services.s3.title": "Tasks & project management",
+    "services.s3.desc": "Clear systems to run your business without losing track of anything.",
+    "services.s3.f1": "Custom workspaces, your way",
+    "services.s3.f2": "Client dashboards",
+    "services.s3.f3": "Automated project tracking",
+    "services.s3.f4": "Lightweight, effective CRM",
+
+    "method.label": "Method",
+    "method.title": "A simple approach, in 4 steps.",
+    "method.intro": "From the first conversation to going live, every step is clear — no surprises.",
+    "method.s1.title": "Diagnosis",
+    "method.s1.desc": "A quick 30-minute call to pin down your friction points and real priorities.",
+    "method.s2.title": "Design",
+    "method.s2.desc": "I design a clear, priced solution that fits your pace and budget.",
+    "method.s3.title": "Implementation",
+    "method.s3.desc": "Building the system, connecting it to your existing tools, testing thoroughly.",
+    "method.s4.title": "Support",
+    "method.s4.desc": "Training, maintenance, and improvements. You're never alone after launch.",
+
+    "why.label": "Why Biasi",
+    "why.title": "An approach built for small businesses.",
+    "why.intro": "No agency, no middlemen — just one person who actually gets your business.",
+    "why.c1.title": "Tailored, never off-the-shelf",
+    "why.c1.desc": "Every solution is built for your business, your current tools, and the way you work.",
+    "why.c2.title": "Transparent pricing",
+    "why.c2.desc": "Clear quote, no surprises. Flexible payment options depending on the project, with optional monthly maintenance.",
+    "why.c3.title": "You stay in control",
+    "why.c3.desc": "Simple documentation and training included — so you understand and run your own system.",
+    "why.c4.title": "Multilingual & international",
+    "why.c4.desc": "Support in French, Spanish, and English — ideal for businesses that work across borders.",
+
+    "testi.label": "They trust us",
+    "testi.title": "What our clients say.",
+    "testi.t1.quote": "Berta guided us from start to finish in setting up La Popote Brasil's B2B CRM: benchmarking the options, migrating our data, and building smart AI automations. Responsive, organized, fully involved — we now have a much more professional setup, ready to scale. I recommend her work without hesitation.",
+    "testi.t1.role": "Founder & Director, La Popote Brasil",
+
+    "contact.label": "First contact",
+    "contact.title": "Ready to reclaim your time?",
+    "contact.lead": "Three quick questions before we talk — under 2 minutes. First call's free, no strings attached.",
+    "contact.alt": "Don't feel like filling out a form? Write to me at <a href='mailto:contact@biasi-solutions.com'>contact@biasi-solutions.com</a>",
+
+    "q.optional": "(optional)",
+    "q.btn.next": "Next",
+    "q.btn.back": "Back",
+    "q.btn.send": "Send",
+    "q.btn.sending": "Sending...",
+
+    "q.s1.eyebrow": "Step 1 / 3",
+    "q.s1.title": "A little about you",
+    "q.s1.sub": "A few details so I can get back to you.",
+    "q.s1.name": "Your name",
+    "q.s1.name.ph": "First and last name",
+    "q.s1.email": "Email",
+    "q.s1.email.ph": "you@example.com",
+    "q.s1.company": "Company",
+    "q.s1.company.ph": "Name of your business",
+
+    "q.s2.eyebrow": "Step 2 / 3",
+    "q.s2.title": "Your business",
+    "q.s2.sub": "To tailor my recommendations to your situation.",
+    "q.s2.size": "Your team size",
+    "q.s2.size.solo": "Solo / Freelancer",
+    "q.s2.size.small": "2 – 5 people",
+    "q.s2.size.medium": "6 – 20 people",
+    "q.s2.size.large": "More than 20",
+    "q.s2.sector": "Your industry",
+    "q.s2.sector.ph": "E.g. consulting, e-commerce, retail...",
+
+    "q.s3.eyebrow": "Step 3 / 3",
+    "q.s3.title": "Your needs",
+    "q.s3.sub": "What takes up most of your time today?",
+    "q.s3.pain": "Select what applies to you",
+    "q.s3.pain.inv": "Invoicing / Admin",
+    "q.s3.pain.email": "Repetitive emails",
+    "q.s3.pain.crm": "Client management",
+    "q.s3.pain.proj": "Project organization",
+    "q.s3.pain.rep": "Reports / Data",
+    "q.s3.pain.other": "Something else",
+    "q.s3.msg": "Describe your situation in a few words",
+    "q.s3.msg.ph": "What's the context? What tools do you currently use?",
+
+    "q.err.name": "Please enter your name.",
+    "q.err.email": "Invalid email.",
+    "q.err.size": "Please select an option.",
+    "q.err.pain": "Select at least one option.",
+
+    "q.success.title": "Thank you!",
+    "q.success.msg": "I've received your answers. You can now pick a slot directly, or wait for me to reach out.",
+    "q.book.title": "Book now",
+    "q.book.sub": "20-min Discovery call, free · Pick your slot ↓",
+    "q.book.or": "or",
+    "q.book.alt": "Not in a rush? No problem — I'll get back to you within 24–48 hours.",
+    "q.error.title": "Oops, something went wrong",
+    "q.error.msg": "Submission failed. You can try again or write to me directly.",
+    "q.error.cta": "contact@biasi-solutions.com",
+
+    "footer.copyright": "© 2026 Biasi Solutions — Berta Arranz Cerezo",
+    "footer.legal": "SIRET 10272746800013 · VAT not applicable, art. 293 B of the French Tax Code"
+  }
+};
+
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  const t = translations[lang];
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const value = t[key];
+    if (value !== undefined) {
+      if (key.endsWith('-html')) {
+        el.innerHTML = value;
+      } else {
+        el.textContent = value;
+      }
+    }
+  });
+  // labels with inline children: only replace the text node, keep <span> children
+  document.querySelectorAll('[data-i18n-label]').forEach(el => {
+    const key = el.getAttribute('data-i18n-label');
+    const value = t[key];
+    if (value === undefined) return;
+    // Replace first text node, keep children intact
+    let replaced = false;
+    for (const node of el.childNodes) {
+      if (node.nodeType === 3) {
+        node.nodeValue = value + ' ';
+        replaced = true;
+        break;
+      }
+    }
+    if (!replaced) el.prepend(document.createTextNode(value + ' '));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  localStorage.setItem('biasi-lang', lang);
+}
+
+// ===== NAV SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 20) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// ===== FADE IN ON SCROLL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ===== QUESTIONNAIRE =====
+// 👉 IMPORTANT: replace this URL with your real n8n production webhook URL
+const N8N_WEBHOOK_URL = 'https://n8n.biasi-solutions.com/webhook/biasi-contact';
+
+// Cal.com event links per language (user/event-slug)
+const CAL_LINKS = {
+  fr: 'berta-arranz-cerezo-biasi/decouverte-biasi-20-min',
+  es: 'berta-arranz-cerezo-biasi/descubre-biasi-20-min',
+  en: 'berta-arranz-cerezo-biasi/discover-biasi-20-min'
+};
+
+const form = document.getElementById('biasi-form');
+let currentStep = 1;
+const totalSteps = 3;
+
+function goToStep(n) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.form-step[data-step="${n}"]`).classList.add('active');
+
+  // progress bar
+  document.querySelectorAll('.progress-step').forEach(el => {
+    const i = parseInt(el.dataset.bar);
+    el.classList.toggle('active', i === n);
+    el.classList.toggle('completed', i < n);
+  });
+  document.querySelectorAll('.progress-line').forEach(el => {
+    const [from] = el.dataset.line.split('-').map(Number);
+    el.classList.toggle('completed', from < n);
+  });
+
+  currentStep = n;
+  // smooth scroll to top of questionnaire
+  document.querySelector('.quest-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function validateStep(step) {
+  let valid = true;
+  const container = document.querySelector(`.form-step[data-step="${step}"]`);
+  container.querySelectorAll('.field').forEach(f => f.classList.remove('error'));
+
+  if (step === 1) {
+    const name = form.querySelector('[name="name"]');
+    const email = form.querySelector('[name="email"]');
+    if (!name.value.trim()) { name.closest('.field').classList.add('error'); valid = false; }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value.trim())) { email.closest('.field').classList.add('error'); valid = false; }
+  }
+  if (step === 2) {
+    const size = form.querySelector('[name="size"]:checked');
+    if (!size) { container.querySelector('.option-grid').closest('.field').classList.add('error'); valid = false; }
+  }
+  if (step === 3) {
+    const pain = form.querySelectorAll('[name="pain"]:checked');
+    if (pain.length === 0) { container.querySelector('.option-grid').closest('.field').classList.add('error'); valid = false; }
+  }
+  return valid;
+}
+
+form.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (validateStep(currentStep)) goToStep(currentStep + 1);
+  });
+});
+form.querySelectorAll('[data-back]').forEach(btn => {
+  btn.addEventListener('click', () => goToStep(currentStep - 1));
+});
+
+// Clear field errors as user interacts
+form.addEventListener('input', e => {
+  const field = e.target.closest('.field');
+  if (field) field.classList.remove('error');
+});
+form.addEventListener('change', e => {
+  const field = e.target.closest('.field');
+  if (field) field.classList.remove('error');
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validateStep(3)) return;
+
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  const sendingText = translations[document.documentElement.lang]['q.btn.sending'] || 'Sending...';
+  submitBtn.querySelector('span').textContent = sendingText;
+
+  // Build payload
+  const fd = new FormData(form);
+  const pains = Array.from(form.querySelectorAll('[name="pain"]:checked')).map(el => el.value);
+  const payload = {
+    name: fd.get('name'),
+    email: fd.get('email'),
+    company: fd.get('company') || '',
+    size: fd.get('size'),
+    sector: fd.get('sector') || '',
+    pains: pains,
+    message: fd.get('message') || '',
+    language: document.documentElement.lang,
+    submittedAt: new Date().toISOString(),
+    source: 'biasi-solutions.com'
+  };
+
+  try {
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    showFeedback('success', payload);
+  } catch (err) {
+    console.error('Form submission failed:', err);
+    showFeedback('error');
+  }
+});
+
+function showFeedback(type, payload) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.querySelector('.progress-bar').style.display = 'none';
+  document.getElementById(`form-${type}`).classList.add('active');
+  document.querySelector('.quest-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Initialize Cal.com inline embed with pre-filled data from the form
+  if (type === 'success' && payload && window.Cal && window.Cal.ns && window.Cal.ns.discovery) {
+    const notes = [
+      payload.company ? `Entreprise: ${payload.company}` : null,
+      payload.size ? `Taille: ${payload.size}` : null,
+      payload.sector ? `Secteur: ${payload.sector}` : null,
+      payload.pains && payload.pains.length ? `Besoins: ${payload.pains.join(', ')}` : null,
+      payload.message ? `Message: ${payload.message}` : null
+    ].filter(Boolean).join(' | ');
+
+    const currentLang = document.documentElement.lang || 'fr';
+    const calLink = CAL_LINKS[currentLang] || CAL_LINKS.fr;
+
+    try {
+      Cal.ns.discovery("inline", {
+        elementOrSelector: "#cal-inline",
+        config: {
+          name: payload.name || '',
+          email: payload.email || '',
+          notes: notes,
+          theme: "light",
+          layout: "month_view"
+        },
+        calLink: calLink
+      });
+    } catch (e) {
+      console.warn('Cal.com embed failed to initialize:', e);
+    }
+  }
+}
+
+// ===== INIT =====
+const savedLang = localStorage.getItem('biasi-lang') || 'fr';
+setLang(savedLang);
+</script>
+
+</body>
+</html>
